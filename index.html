@@ -30,11 +30,70 @@
         	<th id = "ID">ID</th>
         	<th id = "Picture">Picture</th>
     	</tr>
+
+    	<!-- Filters -->
+ 		<tr>
+ 			<td>
+ 				<input id="text" />
+    		</td>
+           
+    		<td>
+    			<input type="checkbox" id="charA" value="Ноутбук" />Ноутбуки
+        		<input type="checkbox" id="charB" value="Видеокарта" />Видеокарты
+        		<input type="checkbox" id="charC" value="Монитор" />Мониторы
+        		<input type="checkbox" id="charD" value="Мышь" />Мышь
+        		<input type="checkbox" id="charE" value="Блендер" />Блендеры
+    		</td>
+
+       	<td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+        </td>
+    </tr>
+
     </thead>
     <tbody id = "results">
     	<!-- this will auto-filled -->
     </tbody>
 </table>
+
+<script src="filterTable.v1.0.min.js"></script>
+<script>
+    filterTable( document.getElementById("results"), {
+
+    		/* Фильтр для первого столбца текстовое поле - только точное совпадение: */
+            0: document.getElementById("text"),
+
+            /* Фильтр для второго столбца чекбоксы: */
+            1: new filterTable.Filter([ /* Элементы фильтра */
+                    document.getElementById("charA"),
+                    document.getElementById("charB"),
+                    document.getElementById("charC"),
+                    document.getElementById("charD"),
+                    document.getElementById("charE"),
+                ],
+                /* Коллбэк ф-ция валидации */
+                function (value, filters, i) {
+                    /* Если чекбокс не отмечен - его значение не учавствует
+                       в валидации поэтому мы обязаны вернуть true */
+                    if (false === filters[i].checked) return true;
+                    /* Далее, при проверке, мы должны одновременно проверять
+                       значения всех элементов набора при условии чекбокс
+                       отмечен */
+                    return filters[0].checked && filters[0].value === value ||
+                            filters[1].checked && filters[1].value === value ||
+                            filters[2].checked && filters[2].value === value ||
+                            filters[3].checked && filters[3].value === value ||
+                            filters[4].checked && filters[4].value === value;
+                }
+            ),
+        }
+    );
+</script>
 
 </body>
 </html>
