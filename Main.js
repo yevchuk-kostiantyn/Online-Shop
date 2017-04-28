@@ -1,79 +1,49 @@
-$(document).ready(function () {
-	var json = [ {"productName": "Asus PU301LA",			   "productType": "Ноутбук",	"price": "1200", "productId": "id7531"},
-				 {"productName": "Dell Inspiron 5749",		   "productType": "Ноутбук",	"price": "1200", "productId": "id7532"},
-				 {"productName": "MSI PCI-Ex GeForce GTX 960", "productType": "Видеокарта", "price": "1200", "productId": "id7533"},
-				 {"productName": "Dell UltraSharp U2412M",	   "productType": "Монитор",	"price": "1200", "productId": "id7534"},
-				 {"productName": "A4Tech Bloody V8MA",		   "productType": "Мышь",		"price": "1200", "productId": "id7535"},
-  				 {"productName": "BOSCH MSM 6B700",			   "productType": "Блендер",	"price": "1200", "productId": "id7536"},
-  				 {"productName": "HP 255 G3",				   "productType": "Ноутбук",    "price": "1200", "productId": "id7537"},
-				 {"productName": "Lenovo G40-30",			   "productType": "Ноутбук",	"price": "1200", "productId": "id7538"},
-				 {"productName": "Apple MacBook Air 13",	   "productType": "Ноутбук",	"price": "1200", "productId": "id7539"}
-				];
-    var tr;
-    for (var i = 0; i < json.length; i++) {
-    	tr = $('<tr/>');
-        tr.append("<td>" + json[i].productName + "</td>");
-        tr.append("<td>" + json[i].productType + "</td>");
-        tr.append("<td>" + json[i].price + "</td>");
-        tr.append("<td>" + json[i].productId + "</td>");
-        $('table').append(tr);
-    }
+var json = [ {Name: "Asus PU301LA",			          Type: "Ноутбук",	  Price: 1000,  Id: "id7531", Picture: "http://www.foxtrot.com.ua/files/MediumImages/6180148/0.jpg"},
+				     {Name: "Dell Inspiron 5749",		      Type: "Ноутбук",	  Price: 21000, Id: "id7532", Picture: "http://www.laptopworld.com.pk/media/catalog/product/cache/1/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/o/p/open_box_dell_inspiron_5749_silver__1_1.jpg"},
+				     {Name: "MSI PCI-Ex GeForce GTX 960", Type: "Видеокарта", Price: 6000,  Id: "id7533", Picture: "https://dubizar.com/media/catalog/product/cache/1/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/z/o/zotac-geforce-gtx-960-amp-edition-4gb-zt-90309-10m.jpg"},
+				     {Name: "Dell UltraSharp U2412M",	    Type: "Монитор",	  Price: 7150,  Id: "id7534", Picture: "http://i.dell.com/images/global/products/root/monitor-u2413-front-std-295x295.jpg"},
+				     {Name: "A4Tech Bloody V8MA",		      Type: "Мышь",		    Price: 650,   Id: "id7535", Picture: "https://a4tech.ua/media/catalog/product/cache/14/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/v/8/v8ma_bloody_01.jpg"},
+  				   {Name: "BOSCH MSM 6B700",			      Type: "Блендер",	  Price: 1299,  Id: "id7536", Picture: "http://megakom.info/media/catalog/product/cache/1/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/5/6/562358_v01_b_2.jpg"},
+  				   {Name: "HP 255 G3",				          Type: "Ноутбук",    Price: 7100,  Id: "id7537", Picture: "http://phonetrader.ng/buy/media/catalog/product/cache/1/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/2/5/255_g3.jpg"},
+				     {Name: "Lenovo G40-30",			        Type: "Ноутбук",	  Price: 8000,  Id: "id7538", Picture: "http://phonetrader.ng/buy/media/catalog/product/cache/1/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/g/4/g40_30.jpg"},
+				     {Name: "Apple MacBook Air 13",	      Type: "Ноутбук",	  Price: 27099, Id: "id7539", Picture: "https://yellow.ua/media/catalog/product/cache/8/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/a/1/a1370_macbook_air_z0mg000cp_321233879061_1_2.jpg"}
+				    ];
+
+$(function() {
+    $('#headings th').click(function() {
+        var id = $(this).attr('id');
+        var asc = (!$(this).attr('asc')); // switch the order, true if not set
+        
+        // set asc="asc" when sorted in ascending order
+        $('#headings th').each(function() {
+            $(this).removeAttr('asc');
+        });
+        if (asc) $(this).attr('asc', 'asc');
+        
+        sortResults(id, asc);
+    });
+        
+    showResults();
 });
 
-function sortTable() {
-  var table, rows, switching, i, x, y, shouldSwitch;
-  table = document.getElementById("myTable");
-  switching = true;
-  /*Make a loop that will continue until
-  no switching has been done:*/
-  while (switching) {
-    //start by saying: no switching is done:
-    switching = false;
-    rows = table.getElementsByTagName("TR");
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
-    for (i = 1; i < (rows.length - 1); i++) {
-      //start by saying there should be no switching:
-      shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
-      x = rows[i].getElementsByTagName("TD")[0];
-      y = rows[i + 1].getElementsByTagName("TD")[0];
-      //check if the two rows should switch place:
-      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-        //if so, mark as a switch and break the loop:
-        shouldSwitch= true;
-        break;
-      }
-    }
-    if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-    }
-  }
+function sortResults(prop, asc) {
+    json = json.sort(function(a, b) {
+        if (asc) return (a[prop] > b[prop]);
+        else return (b[prop] > a[prop]);
+    });
+    showResults();
 }
 
-
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
+function showResults () {
+    var html = '';
+    for (var e in json) {
+        html += '<tr>'
+            +'<td>'+json[e].Name+'</td>'
+            +'<td>'+json[e].Type+'</td>'
+            +'<td>'+json[e].Price+'</td>'
+            +'<td>'+json[e].Id+'</td>'
+            +"<td><img src='" + json[e].Picture + "'></td>"
+        +'</tr>';
     }
-  }
+    $('#results').html(html);
 }
-
