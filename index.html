@@ -3,6 +3,7 @@
 <head>
   <title>Shop</title>
   <link href="https://fonts.googleapis.com/css?family=Lato: 100,300,400,700|Luckiest+Guy|Oxygen:300,400" rel="stylesheet">
+  <link rel="shortcut icon" href="Icon.ico" type="image/x-icon">
   <link href="style.css" type="text/css" rel="stylesheet">
     <meta charset="utf-8">
     <title>Products</title>
@@ -12,32 +13,28 @@
 <body>
 
   <ul class="navigation">
-    <li><img src="https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-9/htmlcss1-img_logo-shiptoit.png" height="20px;"></li>
+    <li><img src="https://freewebstore.com/images/icons/openSign2.png" height="40px;"></li>
     <li class="active">Products</li>
     <li>Cart</li>
     <li>Settings</li>
   </ul>
 
-<div class="dropdown">
-<button onclick="myFunction()" class="dropbtn">Sort</button>
-  <div id="myDropdown" class="dropdown-content">
-    <p><button onclick="sortTable()">Name</button></p>
-    <p><button onclick="sortTable()">Price (ascending)</button></p>
-    <p><button onclick="sortTable()">Price (descending)</button></p>
-  </div>
-</div>
 
-  <div class="search">Search for product</div>
-  
-  <table id="myTable">
-  <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Price</th>
-        <th>ID</th>
-    </tr>
-  </table>
-
+<div class="search">Search for product</div>
+<table>
+  	<thead id="headings">
+  		<tr>
+        	<th id = "Name">Name</th>
+        	<th id = "Type">Type</th>
+        	<th id = "Price">Price (UAH)</th>
+        	<th id = "ID">ID</th>
+        	<th id = "Picture">Picture</th>
+    	</tr>
+    </thead>
+    <tbody id = "results">
+    	<!-- this will auto-filled -->
+    </tbody>
+</table>
 
 </body>
 </html>
