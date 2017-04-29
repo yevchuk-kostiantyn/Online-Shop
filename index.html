@@ -12,101 +12,92 @@
 </head>
 <body>
 
-  <ul class="navigation">
-    <li><img src="https://freewebstore.com/images/icons/openSign2.png" height="40px;"></li>
-    <li><a href = "">Home</a></li>
-    <li><a href = "">Products</a></li>
-    <li><a href = "">Cart</a></li>
-    <li><a href = "">Check Out</a></li>
-  </ul>
-
-
   <div class="navigation">
     <ul>
-      <li id="logo">Kostia's Web store</li>
+      <li id="logo">Gadget Shop</li>
     </ul>
   </div>
 
   <div id="cover">
 
     <div class="cover-content">
-
-	  <p><a name="Build"</a></p>
+      <a href="#Shopping" class="button">Let's Start Shopping!</a>
+      <a href="#Cart" class="button">Cart</a>
+	  
     </div>
 
   </div>
   
-  <div class="products">
-  <p><a name="Build"</a></p>
+
+<p><a name="Shopping"</a></p>
+ <div class="products">
+  <p><a name="store"</a></p>
     
 
 <table>
-  	<thead>
-  		<tr>
+    <thead>
+      <tr>
 
-        	<th>Search</th>
-        	<th>Pick</th>
+          <th>Search</th>
+          <th>Pick</th>
 
-    	</tr>
+      </tr>
 
 
     </thead>
 <tr>
 <td>
- 				<input id="text" />
-    		</td>
+        <input id="text" />
+        </td>
            
-    		<td>
-    			<input type="checkbox" id="charA" value="Ноутбук" />Ноутбуки
-        		<input type="checkbox" id="charB" value="Видеокарта" />Видеокарты
-        		<input type="checkbox" id="charC" value="Монитор" />Мониторы
-        		<input type="checkbox" id="charD" value="Мышь" />Мышь
-        		<input type="checkbox" id="charE" value="Блендер" />Блендеры
-    		</td>
+        <td>
+          <input type="checkbox" id="charA" value="Ноутбук" />Ноутбуки
+            <input type="checkbox" id="charB" value="Видеокарта" />Видеокарты
+            <input type="checkbox" id="charC" value="Монитор" />Мониторы
+            <input type="checkbox" id="charD" value="Мышь" />Мышь
+            <input type="checkbox" id="charE" value="Блендер" />Блендеры
+        </td>
 </tr>
 
 <table>
-  	<thead id="headings">
-  		<tr>
+    <thead id="headings">
+      <tr>
 
-        	<th id = "Name">Name</th>
-        	<th id = "Type">Type</th>
-        	<th id = "Price">Price (UAH)</th>
-        	<th id = "ID">ID</th>
-        	<th id = "Picture">Picture</th>
+          <th id = "Name">Name</th>
+          <th id = "Type">Type</th>
+          <th id = "Price">Price (UAH)</th>
+          <th id = "ID">ID</th>
+          <th id = "Picture">Picture</th>
 
-    	</tr>
+      </tr>
 
 
     </thead>
     <tbody id = "results">
-    	<!-- this will auto-filled -->
+      <!-- this will auto-filled -->
     </tbody>
 </table>
 
 <script src="filters.js"></script>
 <script>
-    filterTable( document.getElementById("results"), {
+  filterTable( document.getElementById("results"), {
 
-    		/* Фильтр для первого столбца текстовое поле - только точное совпадение: */
+        /* Search filter */
             0: document.getElementById("text"),
 
-            /* Фильтр для второго столбца чекбоксы: */
-            1: new filterTable.Filter([ /* Элементы фильтра */
+            /* Check-box filter */
+            1: new filterTable.Filter([ /* Filter Elements */
                     document.getElementById("charA"),
                     document.getElementById("charB"),
                     document.getElementById("charC"),
                     document.getElementById("charD"),
                     document.getElementById("charE"),
                 ],
-                /* Коллбэк ф-ция валидации */
+                /* Validation function */
                 function (value, filters, i) {
-                    /* Если чекбокс не отмечен - его значение не учавствует
-                       в валидации поэтому мы обязаны вернуть true */
+                    /* If checkbox is not selected */
                     if (false === filters[i].checked) return true;
-                    /* Далее, при проверке, мы должны одновременно проверять
-                       значения всех элементов набора при условии чекбокс
-                       отмечен */
+                    /* Check all values under specific value of selected checkbox */
                     return filters[0].checked && filters[0].value === value ||
                             filters[1].checked && filters[1].value === value ||
                             filters[2].checked && filters[2].value === value ||
@@ -117,6 +108,42 @@
         }
     );
 </script>
+  <div class="products">
+  <p><a name="Cart"</a></p>
+    <div class="calculating">
+      <form>
+    <table>
+
+      <!-- Product -->
+      <tr>
+        <td>Product</td>
+        <td>
+          <input name="Product" type="text">
+        </td>
+      </tr>
+
+      <!-- Quantity -->
+      <tr>
+        <td>Quantity</td>
+        <td>
+          <input name="Quantity" type="number">
+        </td>
+      </tr>
+
+      <!-- Total -->
+      <tr>
+        <td>Total:</td>
+        <td>  
+          <output name="Total"></output>
+        </td>
+      </tr>
+    </table>
+
+    <input type="button" id='Check_out' class='button' onclick="calculate(this.form)" value="Check out"> <!-- Check out button -->
+  </form>
+</div>
+</div>
+
 
 </body>
-</html>
+</html> 
