@@ -9,6 +9,22 @@ var json = [ {Name: "Asus PU301LA",			          Type: "Ноутбук",	  Price:
 				     {Name: "Apple MacBook Air 13",	      Type: "Ноутбук",	  Price: 27099, Id: "id7539", Picture: "https://yellow.ua/media/catalog/product/cache/8/small_image/295x295/9df78eab33525d08d6e5fb8d27136e95/a/1/a1370_macbook_air_z0mg000cp_321233879061_1_2.jpg"}
 				    ];
 
+// Decode JSON and paste it to HTML table
+function showResults () {
+    var html = '';
+    for (var e in json) {
+        html += '<tr>'
+            +'<td>'+json[e].Name+'</td>'
+            +'<td>'+json[e].Type+'</td>'
+            +'<td>'+json[e].Price+'</td>'
+            +'<td>'+json[e].Id+'</td>'
+            +"<td><img src='" + json[e].Picture + "'></td>"
+        +'</tr>';
+    }
+    $('#results').html(html);
+}
+
+// Sort
 $(function() {
     $('#headings th').click(function() {
         var id = $(this).attr('id');
@@ -34,34 +50,7 @@ function sortResults(prop, asc) {
     showResults();
 }
 
-function showResults () {
-    var html = '';
-    for (var e in json) {
-        html += '<tr>'
-            +'<td>'+json[e].Name+'</td>'
-            +'<td>'+json[e].Type+'</td>'
-            +'<td>'+json[e].Price+'</td>'
-            +'<td>'+json[e].Id+'</td>'
-            +"<td><img src='" + json[e].Picture + "'></td>"
-        +'</tr>';
-    }
-    $('#results').html(html);
-}
-
-/**
- * Привязать фильтры к таблице.
- * @param HTMLTableSectionElement HTMLTBodyRef - ссылка на элемент &lt;tbody&gt; таблицы
- * @param Object filters - объект-конфигурация фильтров: { N : FILTER[, N : FILTER] }
- *
- *  Где:
- *      NUM - это натуральное число - номер столбца таблицы, обслуживаемого
- *          фильтром. Этот номер может принимать значения от 0 до кол-во
- *          столбцов таблицы - 1. Номера можно задавать не по порядку.
- *
- *      FILTER - это ссылка на HTML-элемент представляющий собой элемент
- *          HTML-формы и имеющий атрибут value (select в том числе), либо
- *          объект типа tableKit.Filter
- */
+// Filters
 var filterTable = function (HTMLTBodyRef, aFilters) {
     var rows = HTMLTBodyRef.getElementsByTagName("TR"),
         filters = {}, n,
@@ -92,40 +81,15 @@ var filterTable = function (HTMLTBodyRef, aFilters) {
     }
 }
 
-/**
- * Объект фильтр.
- * @param HTMLInputElement | HTMLSelect HTMLElementRef | [] - Ссылка или массив ссылок
- *                 на html-элементы, служащие фильтрами.
- * @param Function callback - ф-ция обратного вызова. Вызывается когда скрипт
- * производит валидацию содержимого ячейки. Ф-ция вызывается для каждой строки таблицы, для
- * каждой ячейки столбца, для которого назначен фильтр.
- * Функции будут переданы 3 параметра: callback(value, filters, i) где:
- *      String value - значение ячейки таблицы, проверяемой на момент вызова ф-ции
- *      HTMLElements[] filters - массив HTML-элементов назначенных фильтрами для проверяемого столбца.
- *      Number i - индекс элемента фильтра в массиве filters который является
- *                 валидатором для текущего вызова. Т.е. filters[i] внутри ф-ции
- *                 обратного вызова будет содержать элемент, с которым провзаимодействовал
- *                 пользователь, в результате чего был запущен процесс валидации.
- * @param String eventName - название события привязанного к фильтру, по которому будет
- *      запускаться валидация (onkeyup | onclick | onblur | onchange и т.п.)
- * @constructor
- */
 filterTable.Filter = function (HTMLElementRef, callback, eventName) {
-    /* Если ф-цию вызвали не как конструктор фиксим этот момент: */
+    /* If function was not called as constructor, fix it */
     if (!(this instanceof arguments.callee)) {
         return new arguments.callee(HTMLElementRef, callback, eventName);
     }
 
-    /* Выравниваем пришедший аргумент к массиву */
+    /* Argument to string */
     this.filters = {}.toString.call(HTMLElementRef) == "[object Array]" ? HTMLElementRef : [HTMLElementRef];
 
-    /**
-     * Шаблонный метод вызывается для каждой строки таблицы, для соответствующей
-     * ячейки. Номер ячейки задается в объекте-конфигурации фильтров ф-ции
-     * filterTable (См. параметр 2 ф-ции tableFilter )
-     * @param String cellValue - строковое значение ячейки
-     * @returns {boolean}
-     */
     this.validate = function (cellValue) {
         for (var i = 0; i < this.filters.length; i += 1) {
             if ( false === this.__validate(cellValue, this.filters[i], i) ) {
@@ -135,13 +99,12 @@ filterTable.Filter = function (HTMLElementRef, callback, eventName) {
     }
 
     this.__validate = function (cellValue, filter, i) {
-        /* Если фильтр был создан явно и явно указана функция валидации: */
         if (typeof callback !== "undefined") {
             return callback(cellValue, this.filters, i);
         }
-        /* Если в фильтр напихали пробелов или другой непечатной фигни - удаляем: */
+        /* If there are spaces, delete them */
         filter.value = filter.value.replace(/^\s+$/g, "");
-        /* "Фильтр содержит значение и оно совпало со значением ячейки" */
+        /* Input is equal to the value of cell */
         return !filter.value || filter.value == cellValue;
     }
 
@@ -151,3 +114,60 @@ filterTable.Filter = function (HTMLElementRef, callback, eventName) {
         }
     }
 };
+
+
+function show(container, Message) {
+    container.className = 'message';
+    var msgElem = document.createElement('span');
+    msgElem.className = "output-message";
+    msgElem.innerHTML = Message;
+    container.appendChild(msgElem);
+}
+
+function showMessage(container) {
+    container.className = '';
+    if (container.lastChild.className == "output-message") {
+        container.removeChild(container.lastChild);
+    }
+}
+
+function calculate(form) {
+    // Calculate Total
+
+    var product = form.elements;
+
+    showMessage(product.Quantity.parentNode);
+    if (product.Product.value == 'A4Tech Bloody V8MA') {
+        show(product.Total.parentNode, product.Quantity.value * 650)
+        document.getElementById("Check_out").disabled = true;
+    }
+    
+    else if(product.Product.value == 'Asus PU301LA') {
+        show(product.Total.parentNode, product.Quantity.value * 1000)
+        document.getElementById("Check_out").disabled = true;
+    }
+      
+    else if(product.Product.value == 'BOSCH MSM 6B700') {
+        show(product.Total.parentNode, product.Quantity.value * 1999)
+        document.getElementById("Check_out").disabled = true;
+    }
+
+    else if(product.Product.value == 'MSI PCI-Ex GeForce GTX 960') {
+        show(product.Total.parentNode, product.Quantity.value * 6000)
+        document.getElementById("Check_out").disabled = true;
+    }
+
+    else if(product.Product.value == 'HP 255 G3') {
+        show(product.Total.parentNode, product.Quantity.value * 7100)
+        document.getElementById("Check_out").disabled = true;
+    }
+    else if(product.Product.value == 'Dell Inspiron 5749') {
+        show(product.Total.parentNode, product.Quantity.value * 21000)
+        document.getElementById("Check_out").disabled = true;
+    }
+
+    else {
+        show(product.Total.parentNode, 'Sorry, we do not have this product')
+        document.getElementById("Check_out").disabled = true;
+    }
+}    
