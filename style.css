@@ -5,7 +5,7 @@ body {
 }
 
 #cover {
-  background: url("http://www.total-water.com/wp-content/uploads/2015/12/iStock_000059983732_Large.jpg") no-repeat center bottom;
+  background: url("img/background.jpg") no-repeat center bottom;
   background-size: cover;
   background-attachment: fixed;
   height: 900px;
