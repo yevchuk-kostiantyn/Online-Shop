@@ -14,11 +14,11 @@ The program requires:
 
 Grab the latest version of the program by running `https://github.com/yevchuk-kostiantyn/Online-Shop.git`.
 
-To run the House Constructor program: 
+To run the Online Shop program: 
 1. `cd Online-Shop`
 2. `open index.html file`
 
-To open the House Constructor program in Github pages:
+To open the Online Shop program in Github pages:
 1. `open in the browser: https://yevchuk-kostiantyn.github.io/Online-Shop/`
 
 ## Contributors
